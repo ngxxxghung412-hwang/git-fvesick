@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tài Xỉu</title>
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #1d2671, #c33764);
+      color: white;
+    }
+
+    .game {
+      width: 400px;
+      padding: 30px;
+      text-align: center;
+      border-radius: 18px;
+      background: rgba(0, 0, 0, 0.3);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    h1 {
+      color: #ffd54f;
+    }
+
+    .dice-area {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 25px 0;
+    }
+
+    .dice {
+      width: 85px;
+      height: 85px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 12px;
+      background: white;
+      color: black;
+      font-size: 48px;
+      font-weight: bold;
+    }
+
+    button {
+      padding: 12px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .choose {
+      background: #eeeeee;
+    }
+
+    .active {
+      background: #ffca28;
+      color: black;
+    }
+
+    #rollBtn {
+      margin-top: 15px;
+      background: #4caf50;
+      color: white;
+    }
+
+    #result {
+      margin-top: 20px;
+      min-height: 45px;
+      font-size: 19px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="game">
+    <h1>🎲</h1>
+    <p>Xỉu: 2–6 | Tài: 7–12</p>
+
+    <button class="choose" id="taiBtn" onclick="chon('tai')">
+      TÀI (7–12)
+    </button>
+
+    <button class="choose" id="xiuBtn" onclick="chon('xiu')">
+      XỈU (2–6)
+    </button>
+
+    <div class="dice-area">
+      <div class="dice" id="dice1">?</div>
+      <div class="dice" id="dice2">?</div>
+    </div>
+
+    <button id="rollBtn" onclick="lacXucXac()">LẮC XÚC XẮC</button>
+
+    <div id="result">Hãy chọn Tài hoặc Xỉu.</div>
+  </div>
+
+  <script>
+    let luaChon = "";
+
+    function chon(loai) {
+      luaChon = loai;
+
+      document.getElementById("taiBtn").classList.remove("active");
+      document.getElementById("xiuBtn").classList.remove("active");
+
+      if (loai === "tai") {
+        document.getElementById("taiBtn").classList.add("active");
+      } else {
+        document.getElementById("xiuBtn").classList.add("active");
+      }
+
+      document.getElementById("result").innerText =
+        "Bạn đã chọn: " + (loai === "tai" ? "TÀI" : "XỈU");
+    }
+
+    function lacXucXac() {
+      if (luaChon === "") {
+        document.getElementById("result").innerText =
+          "⚠️ Hãy chọn Tài hoặc Xỉu trước!";
+        return;
+      }
+
+      let xucXac1 = Math.floor(Math.random() * 6) + 1;
+      let xucXac2 = Math.floor(Math.random() * 6) + 1;
+
+      let tong = xucXac1 + xucXac2;
+      let ketQua = tong >= 7 ? "tai" : "xiu";
+
+      document.getElementById("dice1").innerText = xucXac1;
+      document.getElementById("dice2").innerText = xucXac2;
+
+      let thongBao = `Bạn ra ${xucXac1} và ${xucXac2}. Tổng là ${tong} → ${ketQua.toUpperCase()}.`;
+
+      if (luaChon === ketQua) {
+        document.getElementById("result").innerText =
+          "🎉 " + thongBao + " Bạn thắng!";
+      } else {
+        document.getElementById("result").innerText =
+          "😢 " + thongBao + " Bạn thua!";
+      }
+    }
+  </script>
+</body>
+</html>
